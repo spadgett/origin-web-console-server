@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 	"path"
 
 	"github.com/elazarl/go-bindata-assetfs"
@@ -70,6 +71,8 @@ type ExtraConfig struct {
 
 	OAuthAuthorizationEndpoint string
 	OAuthTokenEndpoint         string
+
+	TectonicURL string
 }
 
 type AssetServerConfig struct {
@@ -146,6 +149,8 @@ func (c *AssetServerConfig) Complete() (completedConfig, error) {
 	}
 	cfg.ExtraConfig.OAuthAuthorizationEndpoint = metadata.AuthorizationEndpoint
 	cfg.ExtraConfig.OAuthTokenEndpoint = metadata.TokenEndpoint
+
+	cfg.ExtraConfig.TectonicURL = os.Getenv("TECTONIC_URL")
 
 	return cfg, nil
 }
@@ -224,6 +229,7 @@ func (c *completedConfig) addWebConsoleConfig(serverMux *genericmux.PathRecorder
 		MetricsURL:                      c.ExtraConfig.Options.ClusterInfo.MetricsPublicURL,
 		InactivityTimeoutMinutes:        c.ExtraConfig.Options.Features.InactivityTimeoutMinutes,
 		ClusterResourceOverridesEnabled: c.ExtraConfig.Options.Features.ClusterResourceOverridesEnabled,
+		TectonicURL:                     c.ExtraConfig.TectonicURL,
 	}
 
 	versionInfo := assets.WebConsoleVersion{

@@ -246,7 +246,8 @@ window.OPENSHIFT_CONFIG = {
   metricsURL: "{{ .MetricsURL | js}}",
   templateServiceBrokerEnabled: {{ .TemplateServiceBrokerEnabled }},
   inactivityTimeoutMinutes: {{ .InactivityTimeoutMinutes }},
-  clusterResourceOverridesEnabled: {{ .ClusterResourceOverridesEnabled}}
+  clusterResourceOverridesEnabled: {{ .ClusterResourceOverridesEnabled}},
+  tectonicURL: "{{ .TectonicURL }}"
 };
 `))
 
@@ -293,6 +294,7 @@ type WebConsoleConfig struct {
 	// true, the web console will hide the CPU request, CPU limit, and memory request fields in its editors
 	// and skip validation on those fields. The memory limit field will still be displayed.
 	ClusterResourceOverridesEnabled bool
+	TectonicURL                     string
 }
 
 // ClusterResourceOverrideConfig is the configuration for the ClusterResourceOverride
